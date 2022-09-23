@@ -1,6 +1,7 @@
 import sys
 
 from mod import *
+from Joueur import Joueur
 
 def main():
     p : Personnage = Personnage("Merlin")
@@ -58,6 +59,14 @@ def main():
     buff = p4.toBuffer()
     p5 = Personnage.fromPickle(buff)
     print(p5)
+
+    j1 : Joueur = Joueur("arnauld", 7)
+    j1.ajout_joueur(p)
+    print(j1)
+
+    liste=[p,p2,p3,p4]
+    j2 : Joueur = Joueur("toto",liste=liste)
+    print(j2)
 
 if __name__ == "__main__":
     sys.exit(main())

@@ -1,6 +1,7 @@
 from Personnage import Personnage
 from Guerrier import Guerrier
 from Mage import Mage
+
 import json, pickle
 
 def fromJson( chaine: str):
