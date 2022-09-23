@@ -68,5 +68,17 @@ def main():
     j2 : Joueur = Joueur("toto",liste=liste)
     print(j2)
 
+    pp = j1.cherche_nom("merlin")
+    if pp is None :
+        print(f"le joueur {j1.nom} ne posséde pas le personnage nommé merlin")
+    else:
+        print(pp)
+
+    pp = j2.cherche_nom("Merlin")
+    if pp is None:
+        print(f"le joueur {j2.nom} ne posséde pas le personnage nommé merlin")
+    else:
+        print(f"le joueur {j2.nom} posséde le personnage {pp}")
+
 if __name__ == "__main__":
     sys.exit(main())

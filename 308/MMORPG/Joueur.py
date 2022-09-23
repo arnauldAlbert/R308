@@ -31,7 +31,8 @@ class Joueur:
 
     def cherche_nom(self, nom:str) -> Personnage:
         for p in self.__liste:
-            if p.nom == nom:
+            print(f"liste : {p}")
+            if p.pseudo == nom:
                 return p
         return None
 
@@ -61,3 +62,7 @@ class Joueur:
                 del (self.__liste[i])
                 return True
         return False
+
+    @property
+    def nom(self) ->str:
+        return self.__nom

@@ -39,6 +39,7 @@ class Personnage:
             return True
         else:
             return False
+
     @property
     def points_de_vie(self) -> int:
         return self.__points_de_vie
