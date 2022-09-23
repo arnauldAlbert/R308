@@ -1,11 +1,12 @@
+import sys
 from Personnage import Personnage
-import json
+import json,pickle
 class Guerrier(Personnage):
-    def __init__(self,pseudo : str, niveau:int=1):
+    def __init__(self,pseudo : str, niveau:int=1) :
         super().__init__(pseudo,niveau)
         #super().__init__(pseudo,niveau)
 
-        self.points_de_vie = - niveau*8+4
+        self.points_de_vie = niveau*8+4
         self.initiative = niveau *4+6
 
     def __str__(self):
@@ -17,8 +18,7 @@ class Guerrier(Personnage):
         return self.niveau*2+2
 
     def toJson(self)-> str:
-        dict = {"class": "Guerrier", "pseudo": self.__pseudo, "niveau": self.__niveau,
-                "points_de_vie": self.__points_de_vie, "initiative": self.__initiative}
-
+        dict = {"class": "Guerrier", "pseudo": self.pseudo, "niveau": self.niveau, "points_de_vie": self.points_de_vie, "initiative": self.initiative}
         print(dict)
         return json.dumps(dict)
+

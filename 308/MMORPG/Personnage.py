@@ -1,6 +1,5 @@
-import json
-from Guerrier import Guerrier
-from Mage import Mage
+import json,pickle
+
 class Personnage:
     def __init__(self, pseudo : str, niveau : int =1):
         self.__pseudo = pseudo
@@ -71,17 +70,11 @@ class Personnage:
         dict = {"class" : "Personnage" , "pseudo": self.__pseudo, "niveau": self.__niveau, "points_de_vie" : self.__points_de_vie, "initiative" : self.__initiative}
         return json.dumps(dict)
 
+    def toBuffer(self) :
+        ser = pickle.dumps(self)
+        return ser
     @staticmethod
-    def fromJson(chaine: str):
-        dict = json.loads(chaine)
-        if dict["class"]=="Personnage":
-            p: Personnage = Personnage(dict['pseudo'], dict['niveau'])
-        elif dict["class"]=="Guerrier":
-            p:Guerrier = Guerrier(dict['pseudo'], dict['niveau'])
-        elif dict["class"]=="Mage":
-            p: Mage = Mage(dict['pseudo'], dict['niveau'])
-            p.mana = dict["mana"]
-        p.points_de_vie = dict['points_de_vie']
-        p.initiative = dict['initiative']
-        return p
+    def fromPickle(buffer):
+        object = pickle.loads(buffer)
+        return object
 

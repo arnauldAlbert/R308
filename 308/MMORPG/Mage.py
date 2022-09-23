@@ -1,6 +1,5 @@
 from Personnage import Personnage
-
-import json
+import json,pickle
 class Mage(Personnage):
     def __init__(self,pseudo : str, niveau:int=1):
         super().__init__(pseudo,niveau)
@@ -18,8 +17,7 @@ class Mage(Personnage):
         return self.niveau*2+2
 
     def toJson(self)-> str:
-        dict = {"class": "Mage", "pseudo": self.__pseudo, "niveau": self.__niveau,
-                "points_de_vie": self.__points_de_vie, "initiative": self.__initiative}
+        dict = {"class": "Mage", "pseudo": self.pseudo, "niveau": self.niveau, "points_de_vie": self.points_de_vie, "initiative": self.initiative}
 
         print(dict)
         return json.dumps(dict)

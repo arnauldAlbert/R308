@@ -1,7 +1,6 @@
 import sys
-from Personnage import Personnage
-from Guerrier import Guerrier
-from Mage import Mage
+
+from mod import *
 
 def main():
     p : Personnage = Personnage("Merlin")
@@ -50,11 +49,15 @@ def main():
 
     chaine = p2.toJson()
     print(chaine)
-    p4 = Personnage.fromJson(chaine)
+    p4 = fromJson(chaine)
     print(p4)
     chaine = g1.toJson()
-    p4 = Personnage.fromJson(chaine)
+    p4 = fromJson(chaine)
     print(p4)
+
+    buff = p4.toBuffer()
+    p5 = Personnage.fromPickle(buff)
+    print(p5)
 
 if __name__ == "__main__":
     sys.exit(main())
