@@ -40,6 +40,7 @@ def main():
     print (g1)
 
     m1 : Mage = Mage("toto", 12)
+    print(m1)
     m1.combat(g1)
     if (m1.points_de_vie>0):
         print(f"le personnage {m1.pseudo} a vaincu {g1.pseudo}")

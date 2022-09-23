@@ -4,7 +4,6 @@ import json,pickle
 class Guerrier(Personnage):
     def __init__(self,pseudo : str, niveau:int=1) :
         super().__init__(pseudo,niveau)
-        #super().__init__(pseudo,niveau)
 
         self.points_de_vie = niveau*8+4
         self.initiative = niveau *4+6
