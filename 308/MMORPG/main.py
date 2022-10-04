@@ -9,8 +9,9 @@ def main():
     p2 : Personnage = Personnage("Conan",45)
     print(p2)
     p3 : Personnage = Personnage("Merlin")
+    g3 : Guerrier = Guerrier ("Merlin")
 
-    if p3 == p:
+    if g3 == p:
         print("les personnages p et p3 sont identiques")
     else :
         print("les personnages p et p3 sont différents")

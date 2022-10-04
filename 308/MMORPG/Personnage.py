@@ -11,37 +11,34 @@ class Personnage:
         return f"{self.__pseudo} est de niveau {self.__niveau} possède {self.__points_de_vie} " \
                f"points de vie et une initiative de {self.__initiative}"
 
+    def degats(self) -> int:
+        return self.__niveau
+
     def attaque(self, opposant):
-        if (self.__initiative > opposant.__initiative):
+        if (self.__initiative>opposant.__initiative):
             opposant.__points_de_vie -= self.degats()
-            if opposant.__points_de_vie > 0:
+            if opposant.__points_de_vie < 0:
                 self.__points_de_vie -= opposant.degats()
-        elif (opposant.__initiative > self.__initiative):
+        elif (opposant.__initiative>self.__initiative):
             self.__points_de_vie -= opposant.degats()
-            if self.points_de_vie > 0:
+            if self.points_de_vie < 0:
                 opposant.__points_de_vie -= self.degats()
         else:
-            opposant.__points_de_vie -= self.degats()
+            opposant._points_de_vie -= self.degats()
             self.__points_de_vie -= opposant.degats()
 
-
     def combat(self,opposant):
-        while (self.__points_de_vie> 0 and opposant.__points_de_vie>0) :
+        while (self.__points_de_vie>0 and opposant.__points_de_vie>0) :
             self.attaque(opposant)
 
     def soins(self):
         self.__points_de_vie = self.__niveau
 
-
-
-
-
-
-
-
-
-    def degats(self) -> int:
-        return self.__niveau
+    def __eq__(self,other):
+        if (self.__pseudo == other.__pseudo and self.__niveau == other.__niveau):
+            return True
+        else:
+            return False
 
     @property
     def points_de_vie(self) -> int:
@@ -60,6 +57,7 @@ class Personnage:
     def initiative(self, initiative:int):
         if initiative>0:
             self.__initiative = initiative
+
 
     @property
     def pseudo(self) -> str:
@@ -81,8 +79,3 @@ class Personnage:
         object = pickle.loads(buffer)
         return object
 
-    def __eq__(self,other):
-        if self.__pseudo == other.__pseudo and self.__niveau == other.__niveau and type(self) == type(other):
-            return True
-        else:
-            return False
