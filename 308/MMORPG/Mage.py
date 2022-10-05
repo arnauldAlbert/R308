@@ -3,7 +3,6 @@ import json,pickle
 class Mage(Personnage):
     def __init__(self,pseudo : str, niveau:int=1):
         super().__init__(pseudo,niveau)
-        #super().__init__(pseudo,niveau)
         self.__mana = niveau * 5
         self.points_de_vie = niveau* 5+10
         self.initiative = niveau *6+4

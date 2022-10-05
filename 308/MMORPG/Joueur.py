@@ -43,9 +43,9 @@ class Joueur:
         return None
 
     def delete_id(self,index : int) -> bool:
-        if index < len(self.__liste):
-            print ("efface")
-            self.__liste.remove(self.__liste[index])
+        if 0<= index < len(self.__liste):
+            self.__liste.pop(index)
+            #del(self.__liste[index])
             return True
         return False
 
@@ -53,13 +53,15 @@ class Joueur:
         for i in range(len(self.__liste)):
             if self.__liste[i].pseudo == nom:
                 self.__liste.remove(self.__liste[i])
+                # del(self.__liste[i])
                 return True
         return False
 
     def delete_personnage(self, per: str) -> bool:
-        for i in range(len(self.__liste)):
-            if self.__liste[i] == per:
-                self.__liste.remove(self.__liste[i])
+        for p in self.__liste:
+            if p == per:
+                self.__liste.remove(p)
+                # del(p)
                 return True
         return False
 

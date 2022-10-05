@@ -67,7 +67,7 @@ def main():
     j1.ajout_joueur(p)
     print(j1)
 
-    liste=[p,p2,p3,p4]
+    liste=[p,p2,p,p4]
     j2 : Joueur = Joueur("toto",liste=liste)
     print(j2)
 
@@ -90,11 +90,23 @@ def main():
         print(f"le joueur {j2.nom} posséde le personnage {pp}")
 
     print(j2)
-    j2.delete_personnage(p3)
+    j2.delete_id(0)
     print(j2)
+
+    
+    print ("ecriture pickle")
+    with open("data.bin","wb") as fichier:
+        pickle.dump(j2,fichier)
+
+    print("lecture pickle")
+    with open("data.bin","rb") as fichier:
+        j = pickle.load(fichier)
+        print (f"data obtenu {j}")
+
+    """    
     chaine = pickle.dumps(j2)
     j5 = pickle.loads(chaine)
     print (j5)
-
+    """
 if __name__ == "__main__":
     sys.exit(main())

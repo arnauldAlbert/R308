@@ -11,10 +11,10 @@ class Guerrier(Personnage):
     def __str__(self):
         return f"Guerrier {super().__str__()} "
     def soin(self):
-        self.points_de_vie = self.niveau*5+3
+        self.points_de_vie = self.niveau*8+4
 
     def degats(self) -> int:
-        return self.niveau*2+2
+        return self.niveau*2
 
     def toJson(self)-> str:
         dict = {"class": "Guerrier", "pseudo": self.pseudo, "niveau": self.niveau, "points_de_vie": self.points_de_vie, "initiative": self.initiative}
