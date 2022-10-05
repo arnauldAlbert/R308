@@ -11,9 +11,6 @@ class Personnage:
         return f"{self.__pseudo} est de niveau {self.__niveau} possède {self.__points_de_vie} " \
                f"points de vie et une initiative de {self.__initiative}"
 
-    def degats(self) -> int:
-        return self.__niveau
-
     def attaque(self, opposant):
         if (self.__initiative > opposant.__initiative):
             opposant.__points_de_vie -= self.degats()
@@ -36,6 +33,15 @@ class Personnage:
         self.__points_de_vie = self.__niveau
 
 
+
+
+
+
+
+
+
+    def degats(self) -> int:
+        return self.__niveau
 
     @property
     def points_de_vie(self) -> int:
@@ -76,10 +82,8 @@ class Personnage:
         object = pickle.loads(buffer)
         return object
 
-
-
     def __eq__(self,other):
-        if (self.__pseudo == other.__pseudo and self.__niveau == other.__niveau):
+        if self.__pseudo == other.__pseudo and self.__niveau == other.__niveau and type(self) == type(other):
             return True
         else:
             return False

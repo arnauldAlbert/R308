@@ -7,7 +7,7 @@ class Joueur:
         if len(liste) <= maximum:
             self.__liste = liste
         else:
-            self.__liste = liste[-5]
+            self.__liste = liste[:self.__maximum]
 
     def __str__(self):
         rep = f"Joueur {self.__nom} possédant {len(self.__liste)} Personnage(s):"
@@ -24,10 +24,10 @@ class Joueur:
             return False
 
     def cherche_id(self,index : int) -> Personnage :
-        if index < self.__maximum:
-            return self.__liste[index]
-        else:
-            return None
+        if 0 <= index < self.__maximum:
+            if index <= len(self.__liste):
+                return self.__liste[index]
+        return None
 
     def cherche_nom(self, nom:str) -> Personnage:
         for p in self.__liste:
@@ -39,29 +39,30 @@ class Joueur:
     def cherche_personnage(self, p :Personnage) -> Personnage:
         for per in self.__liste:
             if per == p:
-                return p
+                return per
         return None
 
     def delete_id(self,index : int) -> bool:
-        if index < self.__maximum:
-            del(self.__liste[index])
+        if index < len(self.__liste):
+            print ("efface")
+            self.__liste.remove(self.__liste[index])
             return True
-        else:
-            return False
+        return False
 
     def delete_nom(self, nom:str) -> bool:
         for i in range(len(self.__liste)):
             if self.__liste[i].pseudo == nom:
-                del(self.__liste[i])
+                self.__liste.remove(self.__liste[i])
                 return True
         return False
 
     def delete_personnage(self, per: str) -> bool:
         for i in range(len(self.__liste)):
             if self.__liste[i] == per:
-                del (self.__liste[i])
+                self.__liste.remove(self.__liste[i])
                 return True
         return False
+
 
     @property
     def nom(self) ->str:

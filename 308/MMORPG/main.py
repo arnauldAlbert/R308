@@ -18,10 +18,6 @@ def main():
     p.combat(p2)
 
     print(p)
-    if p3 == p:
-        print("les personnages p et p3 sont identiques")
-    else:
-        print("les personnages p et p3 sont différents")
 
     print(p2)
     if (p.points_de_vie>0):
@@ -38,6 +34,12 @@ def main():
 
     g1 : Guerrier = Guerrier("arnauld",10)
     print (g1)
+
+    g3 : Guerrier = Guerrier("Merlin")
+    if g3 == p:
+        print("les personnages p et p3 sont identiques")
+    else:
+        print("les personnages p et p3 sont différents")
 
     m1 : Mage = Mage("toto", 12)
     print(m1)
@@ -69,17 +71,30 @@ def main():
     j2 : Joueur = Joueur("toto",liste=liste)
     print(j2)
 
+    pp = j1.cherche_id(4)
+    if pp is None:
+        print(f"le joueur {j1.nom} ne posséde pas de 4éme personnage")
+    else:
+        print(pp)
+
     pp = j1.cherche_nom("merlin")
     if pp is None :
         print(f"le joueur {j1.nom} ne posséde pas le personnage nommé merlin")
     else:
         print(pp)
 
-    pp = j2.cherche_nom("Merlin")
+    pp = j2.cherche_personnage(p3)
     if pp is None:
         print(f"le joueur {j2.nom} ne posséde pas le personnage nommé merlin")
     else:
         print(f"le joueur {j2.nom} posséde le personnage {pp}")
+
+    print(j2)
+    j2.delete_personnage(p3)
+    print(j2)
+    chaine = pickle.dumps(j2)
+    j5 = pickle.loads(chaine)
+    print (j5)
 
 if __name__ == "__main__":
     sys.exit(main())
