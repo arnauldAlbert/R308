@@ -23,7 +23,7 @@ class Personnage:
         else:
             opposant.__points_de_vie -= self.degats()
             self.__points_de_vie -= opposant.degats()
-        print(f"{self.__points_de_vie} {opposant.__points_de_vie}")
+
 
     def combat(self,opposant):
         while (self.__points_de_vie> 0 and opposant.__points_de_vie>0) :
@@ -60,7 +60,6 @@ class Personnage:
     def initiative(self, initiative:int):
         if initiative>0:
             self.__initiative = initiative
-
 
     @property
     def pseudo(self) -> str:

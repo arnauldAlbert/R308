@@ -36,7 +36,7 @@ def main():
     print (g1)
 
     g3 : Guerrier = Guerrier("Merlin")
-    if g3 == p:
+    if p3 == p:
         print("les personnages p et p3 sont identiques")
     else:
         print("les personnages p et p3 sont différents")
@@ -103,6 +103,8 @@ def main():
         j = pickle.load(fichier)
         print (f"data obtenu {j}")
 
+
+    print (f"type {type('bonjour')}")
     """    
     chaine = pickle.dumps(j2)
     j5 = pickle.loads(chaine)
