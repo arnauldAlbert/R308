@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
 import sys
+from abc import ABC, abstractmethod
 import mysql.connector
 
 class Pokemon(ABC):
@@ -8,53 +8,67 @@ class Pokemon(ABC):
         self.__poids = poids
 
     def __str__(self) -> str:
-        return f"Je suis le pokémon {self.__nom}, mon poids est de {self.__poids}"
+        return f"Je suis le Pokemon {self.__nom}, mon poids est de {self.__poids} kg."
 
-    def __repr__(self):
-        return f"{self.__class__} {self.__nom}"
+    def __repr__(self) -> str:
+        return self.__nom
     @abstractmethod
-    def vitesse(self) -> float:
+    def vitesse(self) -> float :
         pass
+
     @property
-    def nom(self):
+    def nom(self) -> str:
         return self.__nom
 
     @property
-    def poids(self):
+    def poids(self) -> float:
         return self.__poids
 
-    @poids.setter
-    def poids(self,poids:float) -> float:
-        self.__poids=poids
-
 class PokemonTerre(Pokemon):
-    def __init__(self, nom : str, poids : float, nb_pattes : int, taille : float):
-        super().__init__(nom,poids)
-        self.__nb_pattes = nb_pattes
+    def __init__(self,nom : str, poids : float, nbpattes : int, taille : float):
+        super().__init__(nom, poids)
+        self.__nbpattes = nbpattes
         self.__taille = taille
 
-    def __str__(self) -> str:
-        return f"{super().__str__()} ma vitesse est de {self.vitesse():.2f} km/h. J'ai {self.__nb_pattes} " \
-               f"pattes, ma taille est de {self.__taille}"
-
     def vitesse(self) -> float:
-        return self.__taille*self.__nb_pattes*3
+        return self.__taille * self.__nbpattes * 3
+
+    def __str__(self) -> str:
+        return f"{super().__str__()}, ma vitesse est de {self.vitesse():.2f} km/h." \
+               f" J'ai {self.__nbpattes} pattes, ma taille est de {self.__taille}"
 
     @property
-    def taille(self) -> float:
+    def nbpattes(self)->int:
+        return self.__nbpattes
+
+    @property
+    def taille(self)->float:
         return self.__taille
 
-    @taille.setter
-    def taille(self,taille : float):
-        self.__taille=taille
+class PokemonSportif(PokemonTerre):
+    def __init__(self,nom : str, poids : float, nbpattes : int, taille : float, frequence : int):
+        super().__init__(nom,poids,nbpattes,taille)
+        self.__frequenceCardiaque = frequence
+    def __str__(self) -> str:
+        return f"{super().__str__()}. ma fréquence cardiaque est de {self.__frequenceCardiaque} pulsations à la minute"
+
     @property
-    def nb_pattes(self)-> int:
-        return self.__nb_pattes
+    def frequenceCardiaque(self):
+        return self.__frequenceCardiaque
 
-    @nb_pattes.setter
-    def nb_pattes(self,nb):
-        self.__nb_pattes=nb
+    def save(self, conn : mysql.connector, id : int):
+        query = f"select count(id) from pokemonsportif where nom='{self.nom}' and pokedex_id={id}"
+        res = conn.cursor()
+        res.execute(query)
 
+        if res.fetchone() == 0:
+            query = f"insert into pokemonsportif values (0,'{self.nom}',{self.poids},{self.nbpattes},{self.taille},{self.__frequenceCardiaque},{id})"
+            curseur = conn.cursor()
+            curseur.execute(query)
+            conn.commit()
+            curseur.close()
+        else :
+            print("pokemon déjà la")
 
 
 class PokemonCasanier(PokemonTerre, ):
@@ -65,21 +79,19 @@ class PokemonCasanier(PokemonTerre, ):
     def __str__(self)-> str:
         return f"{super().__str__()} et je regarde la télé {self.__nb_heures_tv} heures par jour"
 
-    def save(self,curseur):
-        query = f"insert into pokemoncasanier (nom,poids, nombrepattes,taille,nbheurestv) values {tuple(self.__dict__.values())}"
-        curseur.execute(query)
+    def save(self, conn : mysql.connector, id : int):
+        query = f"select count(id) from pokemoncasanier where nom='{self.nom}' and pokedex_id={id}"
+        res = conn.cursor()
+        res.execute(query)
 
-class PokemonSportif(PokemonTerre):
-    def __init__(self, nom : str, poids : float, nb_pattes : int, taille : float, frequence_cardiaque : int):
-        super().__init__(nom,poids,nb_pattes,taille)
-        self.__frequence_cardiaque = frequence_cardiaque
-
-    def __str__(self)-> str:
-        return f"{super().__str__()} et ma freqence cardiaque est de  {self.__frequence_cardiaque} pulsation par minutes"
-
-    def save(self,curseur):
-        query = f"insert into pokemonsportif (nom,poids, nombrepattes,taille,frequencecardiaque) values {tuple(self.__dict__.values())}"
-        curseur.execute(query)
+        if res.fetchone() == 0:
+            query = f"insert into pokemoncasanier values (0,'{self.nom}',{self.poids},{self.nbpattes},{self.taille},{self.__nb_heures_tv},{id})"
+            curseur = conn.cursor()
+            curseur.execute(query)
+            conn.commit()
+            curseur.close()
+        else :
+            print("pokemon déjà la")
 
 
 class PokemonEau(Pokemon):
@@ -92,18 +104,30 @@ class PokemonEau(Pokemon):
         return self.__nb_nageoires
 
     def __str__(self) -> str:
-        return f"{super().__str__()} ma vitesse est de {self.vitesse():.2f} km/h, j'ai {self.nb_nageoires} nageoires"
+        return f"{super().__str__()} ma vitesse est de {self.vitesse():.2f} km/h," \
+               f" j'ai {self.__nb_nageoires} nageoires"
+
 
 class PokemonMer(PokemonEau):
-    def __init__(self, nom : str, poids : float, nb_nageoires ):
+    def __init__(self, nom : str, poids : float, nb_nageoires : int):
         super().__init__(nom,poids,nb_nageoires)
 
     def vitesse(self) -> float:
         return self.poids/25 * self.nb_nageoires
 
-    def save(self,curseur):
-        query = f"insert into pokemonmer (nom,poids, nombrenageoires) values {tuple(self.__dict__.values())}"
-        curseur.execute(query)
+    def save(self, conn: mysql.connector, id: int):
+        query = f"select count(id) from pokemonmer where nom='{self.nom}' and pokedex_id={id}"
+        res = conn.cursor()
+        res.execute(query)
+
+        if res.fetchone() == 0:
+            query = f"insert into pokemonmer values (0,'{self.nom}',{self.poids},{self.nb_nageoires},{id})"
+            curseur = conn.cursor()
+            curseur.execute(query)
+            conn.commit()
+            curseur.close()
+        else:
+            print("pokemon déjà la")
 
 
 class PokemonCroisiere(PokemonEau):
@@ -113,71 +137,76 @@ class PokemonCroisiere(PokemonEau):
     def vitesse(self) -> float:
         return self.poids/25 * self.nb_nageoires
 
-    def save(self,curseur, id = None):
-        if id is None:
-            liste = self.__dict__.values()
-            query = f"insert into pokemoncroisiere (nom,poids, nombrenageoires) values {tuple(liste)}"
-        else :
-            liste =[id ,]
-            for p in self.__dict__.values():
-                liste.append(p)
-            query = f"insert into pokemoncroisiere (pokedex_id, nom,poids, nombrenageoires) values {tuple(liste)}"
-        print (query)
-        #curseur.execute(query)
+    def save(self, conn: mysql.connector, id: int):
+        query = f"select count(id) from pokemoncroisiere where nom='{self.nom}' and pokedex_id={id}"
+        res = conn.cursor()
+        res.execute(query)
 
-class pokedex:
-    def __init__(self,nom : str, liste_pokemon : list = []):
+        if res.fetchone() == 0:
+            query = f"insert into pokemoncroisiere values (0,'{self.nom}',{self.poids},{self.nb_nageoires},{id})"
+            curseur = conn.cursor()
+            curseur.execute(query)
+            conn.commit()
+            curseur.close()
+        else:
+            print("pokemon déjà la")
+
+class Pokedex ():
+    def __init__(self,nom : str, liste : list[Pokemon] = []):
         self.__nom = nom
-        self.__liste_pokemon = liste_pokemon
+        self.__liste = liste
 
-    def __str__(self) -> str:
-        return f"pokedex {self.__nom} possédant {len(self.__liste_pokemon)} pokemon {self.__liste_pokemon}"
+    def __str__(self) ->str:
+        res = f"podekedx appartenant à {self.__nom} et contenant {self.nb()} pokemon(s): \n"
+        for p in self.__liste:
+            res += f"Pokemon {p.nom} de type {type(p)} \n"
+        return res
 
-    def vitesse_moyenne(self) -> float:
-        if len(self.__liste_pokemon)>0:
-            moy = 0
-            for p in  self.__liste_pokemon:
-                moy += p.vitesse()
-            moy /= len(self.__liste_pokemon)
-            return moy
-        return 0
+    @property
+    def nom(self) -> str:
+        return self.__nom
 
-    def add(self, pokemon : Pokemon):
-        return self.__liste_pokemon(pokemon)
+    def ajout(self,p : Pokemon) ->bool:
+        return self.__liste.append(p)
 
-    def size(self):
-        return len(self.__liste_pokemon)
+    def nb(self) -> int:
+        return len(self.__liste)
 
-    def recherche(self,index : int) -> Pokemon:
-        if 0<= index < len(self.__liste_pokemon):
-            return self.__liste_pokemon[index]
-        return None
+    def save(self, conn: mysql.connector,):
+        res = conn.cursor()
+        query = f"select id from "
 
-    def recherche_nom(self,nom : str)-> Pokemon:
-        pass
 
 def main():
-   pick = PokemonCasanier("salameche",12,2,.65,8)
-   print(pick)
-   po = PokemonSportif("pikachu",18,2,0.85,120)
-   print(po)
-   p = PokemonMer("rondoudou",45,2)
-   print (p)
-   p2 = PokemonCroisiere("bulbizarre",15,3)
-   print(p2)
-   pok = pokedex("mon pokedex",[po,pick,p2,p])
-   print(pok)
-   print (pok.vitesse_moyenne())
+    print ("fonction principale")
+    p1 : PokemonSportif = PokemonSportif("pikachu",18,2,0.85,120)
+    p2 : PokemonCasanier = PokemonCasanier("Salameche",12,2,0.65,8)
+    p3 : PokemonMer = PokemonMer ("Rondoudou",45,2)
+    p4 : PokemonCroisiere = PokemonCroisiere("Bulbizarre",15,3)
+    print(p1)
+    print(p2)
+    print(p3)
+    print(p4)
+    l =[p1,p2,p3,p4]
+    print(l)
 
-   db = mysql.connector.connect(user='toto',password='toto',database='pokemon')
-   moncurseur = db.cursor()
-   po.save(moncurseur)
-   p.save(moncurseur)
-   p2.save(moncurseur)
-   pick.save(moncurseur)
-   db.commit()
-   moncurseur.close()
-   db.close()
+    print ("-----------pokedex --------------")
+    poke :Pokedex = Pokedex("Arnauld",l)
+    print(poke)
 
-if __name__ == "__main__":
+    print("-------------- DB ------------")
+    myconnector = mysql.connector.connect(user="nono", password="nono",host="localhost", database="pokemon")
+    curseur = myconnector.cursor()
+    query = "show tables"
+    curseur.execute(query)
+    res = curseur.fetchall()
+    for row in res:
+        print(row)
+
+    p1.save(myconnector,1)
+    myconnector.close()
+
+
+
+if __name__=="__main__":
     sys.exit(main())
