@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import sys
+import mysql.connector
 
 class Pokemon(ABC):
     def __init__(self,nom : str, poids : float):
@@ -54,6 +55,8 @@ class PokemonTerre(Pokemon):
     def nb_pattes(self,nb):
         self.__nb_pattes=nb
 
+
+
 class PokemonCasanier(PokemonTerre, ):
     def __init__(self, nom : str, poids : float, nb_pattes : int, taille : float, nb_heures_tv : int):
         super().__init__(nom,poids,nb_pattes,taille)
@@ -62,6 +65,10 @@ class PokemonCasanier(PokemonTerre, ):
     def __str__(self)-> str:
         return f"{super().__str__()} et je regarde la télé {self.__nb_heures_tv} heures par jour"
 
+    def save(self,curseur):
+        query = f"insert into pokemoncasanier (nom,poids, nombrepattes,taille,nbheurestv) values {tuple(self.__dict__.values())}"
+        curseur.execute(query)
+
 class PokemonSportif(PokemonTerre):
     def __init__(self, nom : str, poids : float, nb_pattes : int, taille : float, frequence_cardiaque : int):
         super().__init__(nom,poids,nb_pattes,taille)
@@ -69,6 +76,11 @@ class PokemonSportif(PokemonTerre):
 
     def __str__(self)-> str:
         return f"{super().__str__()} et ma freqence cardiaque est de  {self.__frequence_cardiaque} pulsation par minutes"
+
+    def save(self,curseur):
+        query = f"insert into pokemonsportif (nom,poids, nombrepattes,taille,frequencecardiaque) values {tuple(self.__dict__.values())}"
+        curseur.execute(query)
+
 
 class PokemonEau(Pokemon):
     def __init__(self, nom : str, poids : float, nb_nageoires ):
@@ -89,6 +101,9 @@ class PokemonMer(PokemonEau):
     def vitesse(self) -> float:
         return self.poids/25 * self.nb_nageoires
 
+    def save(self,curseur):
+        query = f"insert into pokemonmer (nom,poids, nombrenageoires) values {tuple(self.__dict__.values())}"
+        curseur.execute(query)
 
 
 class PokemonCroisiere(PokemonEau):
@@ -97,6 +112,18 @@ class PokemonCroisiere(PokemonEau):
 
     def vitesse(self) -> float:
         return self.poids/25 * self.nb_nageoires
+
+    def save(self,curseur, id = None):
+        if id is None:
+            liste = self.__dict__.values()
+            query = f"insert into pokemoncroisiere (nom,poids, nombrenageoires) values {tuple(liste)}"
+        else :
+            liste =[id ,]
+            for p in self.__dict__.values():
+                liste.append(p)
+            query = f"insert into pokemoncroisiere (pokedex_id, nom,poids, nombrenageoires) values {tuple(liste)}"
+        print (query)
+        #curseur.execute(query)
 
 class pokedex:
     def __init__(self,nom : str, liste_pokemon : list = []):
@@ -141,5 +168,16 @@ def main():
    pok = pokedex("mon pokedex",[po,pick,p2,p])
    print(pok)
    print (pok.vitesse_moyenne())
+
+   db = mysql.connector.connect(user='toto',password='toto',database='pokemon')
+   moncurseur = db.cursor()
+   po.save(moncurseur)
+   p.save(moncurseur)
+   p2.save(moncurseur)
+   pick.save(moncurseur)
+   db.commit()
+   moncurseur.close()
+   db.close()
+
 if __name__ == "__main__":
     sys.exit(main())
