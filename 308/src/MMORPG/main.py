@@ -96,11 +96,11 @@ def main():
 
     
     print ("ecriture pickle")
-    with open("data.bin","wb") as fichier:
+    with open("data.bin", "wb") as fichier:
         pickle.dump(j2,fichier)
 
     print("lecture pickle")
-    with open("data.bin","rb") as fichier:
+    with open("data.bin", "rb") as fichier:
         j = pickle.load(fichier)
         print (f"data obtenu {j}")
 

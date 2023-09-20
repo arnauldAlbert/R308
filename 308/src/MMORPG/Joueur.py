@@ -1,7 +1,36 @@
 from Personnage import Personnage
+from typing import List
 
 class Joueur:
-    def __init__(self, nom :str, maximum: int = 5, liste = []):
+    """
+    classe Joueur: décrit une joueur de Jeu de Rôle. il posséde un ensemble de personnage
+
+    .. py:attribute:: nom
+
+        Nom du joueur.
+
+        :type: str
+
+    .. py:attribute:: maximum
+
+        nombre maximum que personnage que le joueur peut posséder
+
+        :type: int
+
+    .. py:attribute:: liste
+
+        la liste des personnages d'un joueur
+
+        :type: List[Personnage]
+    """
+    def __init__(self, nom :str, maximum: int = 5, liste: List[Personnage] = []):
+        """
+        initialise un joueur
+
+        :param nom: nom du joueur
+        :param maximum: nombre maximum de personnage pour le joueur
+        :param liste: la liste des personnages
+        """
         self.__nom = nom
         self.__maximum = maximum
         if len(liste) <= maximum:
@@ -17,19 +46,35 @@ class Joueur:
         return rep
 
     def ajout_joueur(self, p:Personnage) ->bool:
+        """
+        méthode permettant d'aajouter un personnage à la liste
+        :param p: le personnage à ajouter
+        :return: True si on peux l'ajouter, False sinon
+        """
         if len(self.__liste) < self.__maximum:
             self.__liste.append(p)
             return True
         else:
             return False
 
-    def cherche_id(self,index : int) -> Personnage :
+    def cherche_id(self,index : int) -> Personnage:
+        """
+        méthode permettant de renvoyer le personnage dont la position est passée en argument.
+        :param index: la position dans la liste
+        :return: le Personnage si il y en a un à l'index donné ou None.
+        """
         if 0 <= index < self.__maximum:
             if index <= len(self.__liste):
                 return self.__liste[index]
         return None
 
     def cherche_nom(self, nom:str) -> Personnage:
+        """
+        recherche d'un personnage dans la liste en utilisant le nom du personnage.
+
+        :param nom: Nom de personnage recherché
+        :return: le Personnage ou None si non trouvé
+        """
         for p in self.__liste:
             print(f"liste : {p}")
             if p.pseudo == nom:
@@ -37,6 +82,12 @@ class Joueur:
         return None
 
     def cherche_personnage(self, p :Personnage) -> Personnage:
+        """
+        recherche d'un personnage dans la liste en utilisant le personnage.
+
+        :param p: Le personnage recherché
+        :return: le Personnage ou None si non trouvé
+        """
         for per in self.__liste:
             if per == p:
                 return per

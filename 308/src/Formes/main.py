@@ -1,5 +1,8 @@
-import Point, sys
-from Cercle2 import Cercle2
+import sys,os
+sys.path.append(os.path.join(__file__,"../"))
+import Point
+import Cercle
+
 
 def main():
     p1 = Point.Point()
@@ -8,9 +11,9 @@ def main():
     p2 = Point.Point(2, 4)
     print(f"distance Point {p1.distance_point(p2)}")
 
-    c1 = Cercle2(5)
+    c1 = Cercle.Cercle(5)
     print (c1)
-    c2 = Cercle2(8,p2)
+    c2 = Cercle.Cercle(8,p2)
     print(c2)
 
 
