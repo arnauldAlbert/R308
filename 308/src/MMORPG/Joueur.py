@@ -94,6 +94,15 @@ class Joueur:
         return None
 
     def delete_id(self,index : int) -> bool:
+        """
+        méthode permettant de supprimer un personnage de la liste du joueur à l'aide de son numéro
+
+        :param index: le numéro du personnage dans la liste du joueur
+        :type index: int
+        :return: True si l'index est dans la liste et correspond à un joueur, False sinon
+        :rtype : bool
+        """
+
         if 0<= index < len(self.__liste):
             self.__liste.pop(index)
             #del(self.__liste[index])
@@ -101,6 +110,14 @@ class Joueur:
         return False
 
     def delete_nom(self, nom:str) -> bool:
+        """
+        méthode permettant de supprimer un personnage de la liste du joueur à l'aide de son nom
+
+        :param nom: le nom du personnage à chercher dans la liste du joueur
+        :type nom: str
+        :return: True s'il y a un personnage portant le nom passé dans la liste, False sinon
+        :rtype : bool
+        """
         for i in range(len(self.__liste)):
             if self.__liste[i].pseudo == nom:
                 self.__liste.remove(self.__liste[i])
@@ -109,6 +126,14 @@ class Joueur:
         return False
 
     def delete_personnage(self, per: str) -> bool:
+        """
+               méthode permettant de supprimer un personnage de la liste du joueur à l'aide du personnage directement
+
+               :param per: le nom du personnage à chercher dans la liste du joueur
+               :type per: Personnage
+               :return: True s'il y a un personnage identique au personnage passé en argument, False sinon
+               :rtype : bool
+               """
         for p in self.__liste:
             if p == per:
                 self.__liste.remove(p)

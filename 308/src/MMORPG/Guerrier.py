@@ -1,5 +1,4 @@
-import sys
-from Personnage import Personnage
+from mod import *
 import json,pickle
 class Guerrier(Personnage):
     """
@@ -40,7 +39,9 @@ class Guerrier(Personnage):
     def toJson(self)-> str:
         """
         méthode de génération de la chaine Json pour le Guerrier
-        :return:
+
+        :return: la chaine json
+        :rtype: str
         """
         dict = {"class": "Guerrier", "pseudo": self.pseudo, "niveau": self.niveau, "points_de_vie": self.points_de_vie, "initiative": self.initiative}
         print(dict)

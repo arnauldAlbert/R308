@@ -1,6 +1,15 @@
 from Personnage import Personnage
 import json,pickle
 class Mage(Personnage):
+    """
+    classe décrivant un Mage, un personnage utilisant la magie
+
+    .. py:attribute::  mana
+
+        attribut reflatant la quantité de magie utilisable par le Mage
+
+        :type: int
+    """
     def __init__(self,pseudo : str, niveau:int=1):
         super().__init__(pseudo,niveau)
         self.__mana = niveau * 5
@@ -13,6 +22,12 @@ class Mage(Personnage):
         self.points_de_vie = self.niveau*5+10
 
     def degats(self) -> int:
+        """
+        méthode générant les dégat d'un mage en fonction de son niveau
+
+        :return: le nombre de point de dégat généré
+        :rtype: int
+        """
         deg = self.niveau
         if self.__mana > 4:
             deg +=3
@@ -20,6 +35,12 @@ class Mage(Personnage):
         return deg
 
     def toJson(self)-> str:
+        """
+        méthode permettant de retourner la chaine Json pour la sauvegarde.
+
+        :return: la chaine Json
+        :rtype: str
+        """
         dict = {"class": "Mage", "pseudo": self.pseudo, "niveau": self.niveau, "points_de_vie": self.points_de_vie, "initiative": self.initiative}
 
         print(dict)

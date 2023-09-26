@@ -1,4 +1,4 @@
-from . import mod
+import mod
 import json, pickle
 
 class Personnage():

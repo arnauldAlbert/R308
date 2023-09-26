@@ -6,7 +6,7 @@ from Joueur import Joueur
 def main():
     p : Personnage = Personnage("Merlin")
     print(p)
-    p2 : Personnage = Personnage("Conan",45)
+    p2 : Personnage = Personnage("Conawn",45)
     print(p2)
     p3 : Personnage = Personnage("Merlin")
     g3 : Guerrier = Guerrier ("Merlin")
@@ -59,7 +59,7 @@ def main():
     chaine = g1.toJson()
     p4 = fromJson(chaine)
     print(p4)
-
+    print("serialisation \n")
     buff = p4.toBuffer()
     p5 = Personnage.fromPickle(buff)
     print(p5)
@@ -105,7 +105,7 @@ def main():
         print (f"data obtenu {j}")
 
 
-    print (f"type {type('bonjour')}")
+    #print (f"type {type('bonjour')}")
     """    
     chaine = pickle.dumps(j2)
     j5 = pickle.loads(chaine)

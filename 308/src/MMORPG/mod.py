@@ -7,6 +7,13 @@ from Mage import Mage
 import json, pickle
 
 def fromJson( chaine: str):
+    """
+    méthode pour créer un Personnage (typé) en fonction de la lecture de la chaine Json
+    :param chaine: la chaine lue
+    :type chaine: str
+    :return: le Personnage
+    :rtype: Union[Personnage, Guerrier, Mage]
+    """
     dict = json.loads(chaine)
     if dict["class"] == "Personnage":
         p: Personnage = Personnage(dict["pseudo"], dict["niveau"])
