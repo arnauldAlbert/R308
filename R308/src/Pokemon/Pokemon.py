@@ -71,7 +71,7 @@ class PokemonSportif(PokemonTerre):
             print("pokemon déjà la")
 
 
-class PokemonCasanier(PokemonTerre, ):
+class PokemonCasanier(PokemonTerre):
     def __init__(self, nom : str, poids : float, nb_pattes : int, taille : float, nb_heures_tv : int):
         super().__init__(nom,poids,nb_pattes,taille)
         self.__nb_heures_tv = nb_heures_tv
@@ -94,14 +94,18 @@ class PokemonCasanier(PokemonTerre, ):
             print("pokemon déjà la")
 
 
-class PokemonEau(Pokemon):
+class PokemonEau(Pokemon, ABC):
     def __init__(self, nom : str, poids : float, nb_nageoires ):
-        super().__init__(nom,poids)
+        Pokemon.__init__(self,nom,poids)
         self.__nb_nageoires = nb_nageoires
 
     @property
     def nb_nageoires(self)-> int:
         return self.__nb_nageoires
+
+    @abstractmethod
+    def vitesse(self):
+        pass
 
     def __str__(self) -> str:
         return f"{super().__str__()} ma vitesse est de {self.vitesse():.2f} km/h," \

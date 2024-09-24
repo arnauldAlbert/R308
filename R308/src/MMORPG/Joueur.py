@@ -22,6 +22,7 @@ class Joueur:
         la liste des personnages d'un joueur
 
         :type: List[Personnage]
+
     """
     def __init__(self, nom :str, maximum: int = 5, liste: List[Personnage] = []):
         """
@@ -30,6 +31,7 @@ class Joueur:
         :param nom: nom du joueur
         :param maximum: nombre maximum de personnage pour le joueur
         :param liste: la liste des personnages
+
         """
         self.__nom = nom
         self.__maximum = maximum
@@ -50,6 +52,7 @@ class Joueur:
         méthode permettant d'aajouter un personnage à la liste
         :param p: le personnage à ajouter
         :return: True si on peux l'ajouter, False sinon
+
         """
         if len(self.__liste) < self.__maximum:
             self.__liste.append(p)
@@ -98,8 +101,11 @@ class Joueur:
         méthode permettant de supprimer un personnage de la liste du joueur à l'aide de son numéro
 
         :param index: le numéro du personnage dans la liste du joueur
+
         :type index: int
+
         :return: True si l'index est dans la liste et correspond à un joueur, False sinon
+
         :rtype : bool
         """
 
@@ -114,9 +120,13 @@ class Joueur:
         méthode permettant de supprimer un personnage de la liste du joueur à l'aide de son nom
 
         :param nom: le nom du personnage à chercher dans la liste du joueur
+
         :type nom: str
+
         :return: True s'il y a un personnage portant le nom passé dans la liste, False sinon
+
         :rtype : bool
+
         """
         for i in range(len(self.__liste)):
             if self.__liste[i].pseudo == nom:
@@ -127,12 +137,16 @@ class Joueur:
 
     def delete_personnage(self, per: str) -> bool:
         """
-               méthode permettant de supprimer un personnage de la liste du joueur à l'aide du personnage directement
+            méthode permettant de supprimer un personnage de la liste du joueur à l'aide du personnage directement
 
                :param per: le nom du personnage à chercher dans la liste du joueur
+
                :type per: Personnage
+
                :return: True s'il y a un personnage identique au personnage passé en argument, False sinon
+
                :rtype : bool
+
                """
         for p in self.__liste:
             if p == per:

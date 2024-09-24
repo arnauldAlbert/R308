@@ -1,5 +1,5 @@
-import sys,os
-sys.path.append(os.path.join(__file__,"../"))
+#import sys,os
+#sys.path.append(os.path.join(__file__,"../"))
 from Personnage import Personnage
 from Guerrier import Guerrier
 from Mage import Mage

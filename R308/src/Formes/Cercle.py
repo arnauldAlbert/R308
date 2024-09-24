@@ -21,7 +21,19 @@ class Cercle:
     """
 
     def __init__(self,rayon : float, centre : 'Point' = None):
-        self.__rayon = rayon
+        """
+            constructeur de Cercle
+
+        :param rayon: valeur affectée au rayon
+        :type rayon: float ou int
+        :param centre: Le Point centre utilisé (objet de la classe Point). La
+            valeur par défaut est None (
+        :type centre: Point, or None
+        """
+        if isinstance(rayon,(int,float)):
+            self.__rayon = rayon
+        else :
+            raise TypeError("Le rayon doit être un entier ou un réel")
         if centre is not None:
             self.__centre = centre
         else:
@@ -81,7 +93,7 @@ class Cercle:
         :return: Vari si le point est contenu dans la surface, Faux sinon
         :rtype: bool
         """
-        if self.centre.distance_point(p) < self.__rayon:
+        if self.__centre.distance_point(p) < self.__rayon:
             return True
         else:
             return False

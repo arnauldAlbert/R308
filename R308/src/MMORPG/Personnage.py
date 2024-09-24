@@ -1,4 +1,4 @@
-import mod
+
 import json, pickle
 
 class Personnage():
@@ -99,7 +99,7 @@ class Personnage():
         :param other: Le personnage à comparer au personnage courant
         :return: True si les deux personnages sont identiques, False sinon
         """
-        if (self.__pseudo == other.__pseudo and self.__niveau == other.__niveau):
+        if self.__pseudo == other.__pseudo and self.__niveau == other.__niveau and type(self) == type(other):
             return True
         else:
             return False
@@ -164,7 +164,9 @@ class Personnage():
         génére un binaire du personnage
 
         :return: le flux binaire
+
         :rtype : bytes
+
         """
         ser = pickle.dumps(self)
         return ser
@@ -174,7 +176,9 @@ class Personnage():
         permet à partir d'un binaire de récupérer un personnage
 
         :param buffer: la chaine binaire
+
         :return: l'objet récupéré (le personnage)
+
         """
         object = pickle.loads(buffer)
         return object
